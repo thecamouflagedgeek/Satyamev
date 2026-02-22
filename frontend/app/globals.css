@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #c2410c; /* reddish orange */
+}
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+}
