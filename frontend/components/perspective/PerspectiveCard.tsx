@@ -10,17 +10,13 @@ export default function PerspectiveCard({
   summary,
 }: PerspectiveCardProps) {
   return (
-    <Card className="hover:shadow-md transition-all duration-300 border-l-4 border-gray-300">
+    <Card className="border-l-4 border-gray-300 hover:shadow-md transition">
       <h3 className="text-lg font-semibold text-gray-800 mb-2">
         {viewpoint}
       </h3>
 
       <p className="text-gray-600 text-sm leading-relaxed">
         {summary}
-      </p>
-
-      <p className="text-xs text-gray-400 mt-3">
-        Structured by Perspective Mapping AI
       </p>
     </Card>
   );
