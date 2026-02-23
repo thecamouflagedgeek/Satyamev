@@ -1,14 +1,6 @@
 @import "tailwindcss";
 
 :root {
-<<<<<<< HEAD
-  --accent: #c2410c; /* reddish orange */
-}
-
-body {
-  font-family: "Georgia", "Times New Roman", serif;
-}
-=======
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -32,4 +24,3 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
->>>>>>> origin/frontend_3
