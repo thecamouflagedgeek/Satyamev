@@ -35,7 +35,7 @@ export default function Home() {
               Issues
             </a>
             <a href="#how" className="hover:text-[#c2410c] transition">
-              How It Works
+              Help
             </a>
             <Link href="/about" className="hover:text-[#c2410c] transition">
               About
