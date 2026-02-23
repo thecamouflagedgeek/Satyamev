@@ -1,4 +1,4 @@
-import { mock_issues } from "@/data/issues";
+//import { mock_issues } from "@/data/issues";
 import Confirmed from "@/components/truth/Confirmed";
 import Debated from "@/components/truth/Debated";
 import Missing from "@/components/truth/Missing";
@@ -20,22 +20,36 @@ import Missing from "@/components/truth/Missing";
 export default async function IssuePage({ params }: any) {
   const { id } = await params;
 
-  // loading screen
   await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  const issue = mock_issues.find((i) => String(i.id) === String(id));
-
-  if (!issue) {
+  const res = await fetch("http://127.0.0.1:8000/issues", {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  const rawIssue = data.issues.find((i: any) => String(i.id) === String(id));
+  if (!rawIssue) {
     return (
       <div className="text-white p-10 text-center min-h-screen bg-black flex items-center justify-center">
-        Issue not found
+        Issue Not Found.
       </div>
     );
   }
+  const truthRes = await fetch("http://127.0.0.1:8000/truth-analysis", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ topic: rawIssue.title }),
+  });
+  const truthData = await truthRes.json();
+  const issue = {
+    ...rawIssue,
+    confirmed: truthData.analysis.confirmed || [],
+    debated: truthData.analysis.debated || [],
+    missing: truthData.analysis.missing || [],
+  };
 
   return (
     <main className="bg-black text-white min-h-screen">
-
       {/* ISSUE HEADER */}
       <section className="px-6 md:px-16 py-16 border-b border-white/10">
         <div className="max-w-3xl">
@@ -62,12 +76,11 @@ export default async function IssuePage({ params }: any) {
         </div>
 
         <p className="text-sm text-zinc-500 mb-8 max-w-2xl">
-          This structure separates verified information, debated narratives,
-          and missing context to provide clarity around the issue.
+          This structure separates verified information, debated narratives, and
+          missing context to provide clarity around the issue.
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">
-
           {/* ===== ACTIVE VERSION (USING MOCK STRUCTURED DATA) ===== */}
           <Confirmed data={issue.confirmed} />
           <Debated data={issue.debated} />
@@ -79,7 +92,6 @@ export default async function IssuePage({ params }: any) {
           <Debated />
           <Missing />
           */}
-
         </div>
       </section>
 
@@ -93,7 +105,6 @@ export default async function IssuePage({ params }: any) {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
-
           {/* DEV 3: Trust Snapshot Component Goes Here */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-zinc-500">
             Trust Snapshot Placeholder
@@ -103,10 +114,8 @@ export default async function IssuePage({ params }: any) {
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-zinc-500">
             Perspective Explorer Placeholder
           </div>
-
         </div>
       </section>
-
     </main>
   );
 }
