@@ -1,19 +1,24 @@
+export const dynamic = "force-dynamic";
+
 import Confirmed from "@/components/truth/Confirmed";
 import Debated from "@/components/truth/Debated";
 import Missing from "@/components/truth/Missing";
 
+const BASE_URL = "https://satyamev-backend.onrender.com";
+
 export default async function IssuePage({ params }: any) {
-  // ✅ Next 15 requires awaiting params
   const { id } = await params;
 
-  // Fetch issues
-  const res = await fetch("http://127.0.0.1:8000/issues", {
+  // ================= FETCH ISSUES =================
+  const issueRes = await fetch(`${BASE_URL}/issues`, {
     cache: "no-store",
   });
 
-  const data = await res.json();
+  const issueData = await issueRes.json();
 
-  const rawIssue = data.issues?.find((i: any) => String(i.id) === String(id));
+  const rawIssue = issueData.issues?.find(
+    (i: any) => String(i.id) === String(id)
+  );
 
   if (!rawIssue) {
     return (
@@ -23,19 +28,19 @@ export default async function IssuePage({ params }: any) {
     );
   }
 
-  // 🚀 Fetch analysis endpoints in parallel
+  // ================= FETCH ANALYSIS =================
   const [truthRes, trustRes, perspectiveRes] = await Promise.all([
-    fetch("http://127.0.0.1:8000/truth-analysis", {
+    fetch(`${BASE_URL}/truth-analysis`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ topic: rawIssue.title }),
     }),
-    fetch("http://127.0.0.1:8000/trust-score", {
+    fetch(`${BASE_URL}/trust-score`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ topic: rawIssue.title }),
     }),
-    fetch("http://127.0.0.1:8000/perspectives", {
+    fetch(`${BASE_URL}/perspectives`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ topic: rawIssue.title }),
@@ -46,7 +51,6 @@ export default async function IssuePage({ params }: any) {
   const trustData = await trustRes.json();
   const perspectiveData = await perspectiveRes.json();
 
-  // ✅ Structured issue object
   const issue = {
     ...rawIssue,
     confirmed: truthData.analysis?.confirmed || [],
@@ -54,7 +58,6 @@ export default async function IssuePage({ params }: any) {
     missing: truthData.analysis?.missing || [],
   };
 
-  // ✅ Ensure perspectives is always an array
   let perspectives: any[] = [];
 
   if (Array.isArray(perspectiveData?.perspectives)) {
@@ -63,23 +66,22 @@ export default async function IssuePage({ params }: any) {
     perspectiveData?.perspectives &&
     typeof perspectiveData.perspectives === "object"
   ) {
-    // Convert object into array format
     perspectives = Object.entries(perspectiveData.perspectives).map(
       ([key, value]) => ({
-        side: key,
-        view: value,
-      }),
+        viewpoint: key,
+        summary: value,
+      })
     );
   }
 
   return (
     <main className="bg-black text-white">
-      {/* ================= HERO ================= */}
+      {/* HERO */}
       <section className="relative h-[70vh] flex items-center justify-center text-center px-6 md:px-16">
         <div className="absolute inset-0 bg-[url('/black.jpg')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/85" />
 
-        <div className="relative z-10 max-w-3xl mt-16 animate-fadeInUp">
+        <div className="relative z-10 max-w-3xl mt-16">
           <span className="text-xs tracking-widest uppercase text-[#c2410c]">
             Active Issue
           </span>
@@ -96,7 +98,7 @@ export default async function IssuePage({ params }: any) {
         </div>
       </section>
 
-      {/* ================= STRUCTURED UNDERSTANDING ================= */}
+      {/* STRUCTURED UNDERSTANDING */}
       <section className="bg-white text-black px-6 md:px-16 py-24">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-semibold border-b border-black pb-4">
@@ -104,22 +106,20 @@ export default async function IssuePage({ params }: any) {
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8 mt-12">
-            <div className="hover:-translate-y-2 transition duration-300 shadow-lg rounded-xl bg-white p-6">
+            <div className="shadow-lg rounded-xl bg-white p-6">
               <Confirmed data={issue.confirmed} />
             </div>
-
-            <div className="hover:-translate-y-2 transition duration-300 shadow-lg rounded-xl bg-white p-6">
+            <div className="shadow-lg rounded-xl bg-white p-6">
               <Debated data={issue.debated} />
             </div>
-
-            <div className="hover:-translate-y-2 transition duration-300 shadow-lg rounded-xl bg-white p-6">
+            <div className="shadow-lg rounded-xl bg-white p-6">
               <Missing data={issue.missing} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= TIMELINE ================= */}
+      {/* TIMELINE */}
       <section className="relative py-28 px-6 md:px-16">
         <div className="absolute inset-0 bg-[url('/type.jpg')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/90" />
@@ -129,60 +129,41 @@ export default async function IssuePage({ params }: any) {
             Timeline of Events
           </h2>
 
-          {!issue.timeline || issue.timeline.length === 0 ? (
-            <p className="text-zinc-400 text-center">No timeline available.</p>
-          ) : (
-            <div className="relative border-l border-zinc-700 ml-4">
-              {issue.timeline.map((event: any, index: number) => (
-                <div key={index} className="mb-14 ml-8 relative group">
-                  {/* Animated Dot */}
-                  <span className="absolute -left-[13px] top-2 w-6 h-6 bg-[#c2410c] rounded-full border-4 border-black group-hover:scale-125 transition duration-300" />
-
-                  {/* Event Card */}
-                  <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 rounded-xl p-6 shadow-xl hover:border-[#c2410c] transition-all duration-300 hover:-translate-y-1">
-                    <p className="text-xs text-zinc-400 mb-2 tracking-widest uppercase">
-                      {event.date}
-                    </p>
-
-                    <h3 className="text-lg font-semibold text-white">
-                      {event.title}
-                    </h3>
-
-                    <p className="text-sm text-zinc-400 mt-3 leading-relaxed">
-                      {event.description}
-                    </p>
-                  </div>
+          <div className="relative border-l border-zinc-700 ml-4">
+            {issue.timeline?.map((event: any, index: number) => (
+              <div key={index} className="mb-14 ml-8 relative">
+                <span className="absolute -left-[13px] top-2 w-6 h-6 bg-[#c2410c] rounded-full border-4 border-black" />
+                <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 shadow-xl">
+                  <p className="text-xs text-zinc-400 mb-2 uppercase">
+                    {event.date}
+                  </p>
+                  <h3 className="text-lg font-semibold text-white">
+                    {event.title}
+                  </h3>
+                  <p className="text-sm text-zinc-400 mt-3 leading-relaxed">
+                    {event.description}
+                  </p>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ================= TRUST + PERSPECTIVES ================= */}
+      {/* TRUST + PERSPECTIVES */}
       <section className="bg-white text-black px-6 md:px-16 py-24">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
-          {/* Trust */}
-          <div className="p-8 border border-gray-300 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+          <div className="p-8 border border-gray-300 rounded-xl shadow-lg">
             <h3 className="font-semibold text-xl mb-6">Trust Score</h3>
-
             <p className="text-5xl font-bold text-[#c2410c] mb-4">
               {trustData?.reliability_score ?? 0}%
             </p>
-
             <p className="text-gray-700 mb-6">
               {trustData?.reasoning ?? "No reasoning provided."}
             </p>
-
-            <ul className="text-sm text-gray-600 space-y-2">
-              {trustData?.evidence_flags?.map((flag: string, i: number) => (
-                <li key={i}>• {flag}</li>
-              ))}
-            </ul>
           </div>
 
-          {/* Perspectives */}
-          <div className="p-8 border border-gray-300 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+          <div className="p-8 border border-gray-300 rounded-xl shadow-lg">
             <h3 className="font-semibold text-xl mb-6">Perspectives</h3>
 
             {perspectives.length === 0 ? (
