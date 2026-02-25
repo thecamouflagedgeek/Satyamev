@@ -5,21 +5,46 @@ export default async function Issue() {
   let issues: any[] = [];
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || "https://satyamev-backend.onrender.com"}/issues`,
-      { cache: "no-store" },
+    // First attempt
+    let res = await fetch(
+      "https://satyamev-backend.onrender.com/issues",
+      {
+        cache: "no-store",
+      }
     );
 
-    if (res.ok) {
-      const data = await res.json();
-      issues = Array.isArray(data?.issues) ? data.issues : [];
+    // If backend is sleeping (Render free tier), retry once
+    if (!res.ok) {
+      console.log("First attempt failed. Retrying...");
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      res = await fetch(
+        "https://satyamev-backend.onrender.com/issues",
+        {
+          cache: "no-store",
+        }
+      );
     }
+
+    if (!res.ok) {
+      throw new Error(`Backend responded with status ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    if (data && Array.isArray(data.issues)) {
+      issues = data.issues;
+    } else {
+      console.error("Unexpected backend format:", data);
+    }
+
   } catch (error) {
     console.error("Failed to fetch issues:", error);
   }
 
   return (
     <main className="bg-black text-white">
+
       {/* ================= HERO ================= */}
       <section className="relative h-[70vh] flex items-center justify-center text-center px-6 md:px-16">
         <Image
@@ -33,7 +58,9 @@ export default async function Issue() {
         <div className="absolute inset-0 bg-black/85" />
 
         <div className="relative z-10 max-w-3xl mt-16">
-          <h1 className="text-4xl md:text-5xl font-semibold">Public Issues</h1>
+          <h1 className="text-4xl md:text-5xl font-semibold">
+            Public Issues
+          </h1>
 
           <div className="w-16 h-[3px] bg-[#c2410c] mx-auto my-6" />
 
@@ -52,7 +79,9 @@ export default async function Issue() {
           </h2>
 
           {issues.length === 0 ? (
-            <p className="mt-6 text-gray-600">No issues available.</p>
+            <p className="mt-6 text-gray-600">
+              Issues are loading. Please refresh in a few seconds if this is your first visit.
+            </p>
           ) : (
             <div className="grid md:grid-cols-2 gap-12 mt-12">
               {issues.map((issue: any) => (
@@ -116,6 +145,7 @@ export default async function Issue() {
           </p>
         </div>
       </footer>
+
     </main>
   );
 }
