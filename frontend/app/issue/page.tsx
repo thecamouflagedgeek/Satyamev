@@ -6,7 +6,7 @@ export default async function Issue() {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || "https://satyamev-backend.onrender.com/"}/issues`,
+      `${process.env.NEXT_PUBLIC_API_URL || "https://satyamev-backend.onrender.com"}/issues`,
       { cache: "no-store" },
     );
 
