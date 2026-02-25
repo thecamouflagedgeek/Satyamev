@@ -1,123 +1,162 @@
+import Image from "next/image";
+
 export default function HelpPage() {
   return (
-    <main className="bg-black text-white min-h-screen px-6 md:px-20 py-16">
-      {/* HERO */}
-      <section className="max-w-4xl mb-20">
-        <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
-          Help & Transparency
-        </h1>
+    <main className="bg-black text-white">
+      {/* ================= HERO ================= */}
+      <section className="relative h-[65vh] flex items-center justify-center text-center px-6 md:px-16">
+        <Image
+          src="/type.jpg"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+        />
 
-        <p className="text-zinc-400 text-lg leading-relaxed">
-          Satyamev is built to reduce noise, increase clarity, and structure
-          public discourse. This page explains how the system works, how to
-          interpret analysis, and how you can contribute to improving it.
-        </p>
+        <div className="absolute inset-0 bg-black/85" />
+
+        <div className="relative z-10 max-w-3xl mt-16">
+          <h1 className="text-4xl md:text-5xl font-semibold">
+            Help & Transparency
+          </h1>
+
+          <div className="w-16 h-[3px] bg-[#c2410c] mx-auto my-6" />
+
+          <p className="text-gray-300 leading-relaxed text-lg">
+            This page explains how Satyamev structures public issues, generates
+            trust metrics, and ensures transparency in analysis.
+          </p>
+        </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="grid md:grid-cols-3 gap-10 mb-20">
-        <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-xl">
-          <h2 className="text-xl font-semibold mb-3">1. Structured Analysis</h2>
-          <p className="text-zinc-400 text-sm leading-relaxed">
-            Each issue is separated into Confirmed facts, Debated narratives,
-            and Missing context. This prevents emotional framing from distorting
-            understanding.
-          </p>
-        </div>
-
-        <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-xl">
-          <h2 className="text-xl font-semibold mb-3">2. Trust Scoring</h2>
-          <p className="text-zinc-400 text-sm leading-relaxed">
-            Reliability scores are generated using rule-based evidence
-            weighting. Cross-source consistency and public data corroboration
-            influence results.
-          </p>
-        </div>
-
-        <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-xl">
-          <h2 className="text-xl font-semibold mb-3">
-            3. Multi-Perspective View
+      {/* ================= HOW IT WORKS ================= */}
+      <section className="bg-white text-black px-6 md:px-16 py-24">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-semibold border-b border-black pb-4">
+            How the System Works
           </h2>
-          <p className="text-zinc-400 text-sm leading-relaxed">
-            Issues are presented from policy, economic, and citizen viewpoints
-            to prevent one-dimensional analysis.
+
+          <div className="grid md:grid-cols-3 gap-12 mt-16">
+            <div>
+              <h3 className="text-xl font-semibold text-[#c2410c] mb-4">
+                1. Structured Analysis
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Each issue is divided into Confirmed facts, Debated narratives,
+                and Missing context to prevent distortion and preserve clarity.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-[#c2410c] mb-4">
+                2. Trust Scoring
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Reliability scores are generated through evidence weighting,
+                cross-source consistency and structural evaluation.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-[#c2410c] mb-4">
+                3. Multi-Perspective View
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Policy, economic and citizen viewpoints are displayed to ensure
+                balanced, multidimensional analysis.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= HOW TO READ ================= */}
+      <section className="bg-black text-white px-6 md:px-16 py-28">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold mb-6">
+            How to Interpret an Issue Page
+          </h2>
+
+          <div className="w-16 h-[3px] bg-[#c2410c] mb-12" />
+
+          <div className="space-y-8 text-gray-300 leading-relaxed text-lg">
+            <p>
+              <span className="text-white font-semibold">Confirmed</span>{" "}
+              includes verifiable facts supported by reliable public sources.
+            </p>
+
+            <p>
+              <span className="text-white font-semibold">Debated</span>{" "}
+              highlights areas where interpretations differ or evidence remains
+              contested.
+            </p>
+
+            <p>
+              <span className="text-white font-semibold">Missing</span>{" "}
+              identifies gaps in available data or unresolved questions.
+            </p>
+
+            <p>
+              The Trust Score reflects structural reliability — not opinion or
+              sentiment.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= TRANSPARENCY ================= */}
+      <section className="bg-white text-black px-6 md:px-16 py-24">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold border-b border-black pb-4">
+            Transparency Commitment
+          </h2>
+
+          <p className="mt-6 text-gray-700 leading-relaxed">
+            Satyamev does not replace journalism or human judgment. It
+            structures information to support independent evaluation.
+          </p>
+
+          <p className="mt-6 text-gray-700 leading-relaxed">
+            Our scoring models and analytical frameworks are continuously
+            refined to reduce bias and improve contextual accuracy.
           </p>
         </div>
       </section>
 
-      {/* HOW TO READ AN ISSUE */}
-      <section className="max-w-4xl mb-20">
-        <h2 className="text-3xl font-semibold mb-6">
-          How to Interpret an Issue Page
-        </h2>
+      {/* ================= REPORT ================= */}
+      <section className="bg-black text-white px-6 md:px-16 py-28">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold mb-6">Report Inaccuracies</h2>
 
-        <div className="space-y-6 text-zinc-400 leading-relaxed">
-          <p>
-            <span className="text-white font-medium">Confirmed</span> includes
-            verifiable facts supported by reliable public sources.
+          <div className="w-16 h-[3px] bg-[#c2410c] mb-12" />
+
+          <p className="text-gray-300 mb-8">
+            If you identify outdated information, missing context, or factual
+            inconsistencies, please report them for review.
           </p>
 
-          <p>
-            <span className="text-white font-medium">Debated</span> highlights
-            areas where interpretations differ or evidence is contested.
-          </p>
-
-          <p>
-            <span className="text-white font-medium">Missing</span> identifies
-            gaps in available data or unanswered questions.
-          </p>
-
-          <p>
-            The Trust Score summarizes structural reliability — not opinion.
-          </p>
+          <div className="border border-gray-700 p-8">
+            <p className="text-gray-300 mb-4">
+              Email: <span className="text-white">support@satyamev.org</span>
+            </p>
+            <p className="text-gray-500 text-sm">
+              Include the issue ID, a description of the concern, and any
+              supporting references.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* TRANSPARENCY */}
-      <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-10 mb-20">
-        <h2 className="text-3xl font-semibold mb-6">Transparency Commitment</h2>
+      {/* ================= CTA ================= */}
+      <section className="bg-white text-black py-20 px-6 md:px-16 text-center">
+        <h2 className="text-3xl font-semibold mb-6">Want to Contribute?</h2>
 
-        <p className="text-zinc-400 leading-relaxed mb-4">
-          Satyamev does not aim to replace human judgment. It structures
-          information so users can make better decisions independently.
+        <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
+          Researchers, civic technologists and policy analysts are welcome to
+          collaborate in strengthening India’s public clarity infrastructure.
         </p>
 
-        <p className="text-zinc-400 leading-relaxed">
-          We continuously refine scoring models and perspective generation to
-          reduce bias and improve evidence clarity.
-        </p>
-      </section>
-
-      {/* REPORT ISSUE */}
-      <section className="max-w-4xl mb-20">
-        <h2 className="text-3xl font-semibold mb-6">Report Inaccuracies</h2>
-
-        <p className="text-zinc-400 mb-6">
-          If you find incorrect information, outdated analysis, or missing
-          context, please report it.
-        </p>
-
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-          <p className="text-zinc-300 text-sm mb-4">
-            Email: <span className="text-white">support@satyamev.org</span>
-          </p>
-          <p className="text-zinc-500 text-xs">
-            Include issue ID, description of the concern, and any supporting
-            evidence.
-          </p>
-        </div>
-      </section>
-
-      {/* CALL TO ACTION */}
-      <section className="text-center border-t border-white/10 pt-16">
-        <h2 className="text-3xl font-semibold mb-4">Want to Contribute?</h2>
-
-        <p className="text-zinc-400 mb-8 max-w-2xl mx-auto">
-          We welcome researchers, civic technologists, and policy analysts who
-          want to improve public clarity infrastructure.
-        </p>
-
-        <div className="inline-block bg-white text-black px-8 py-3 rounded-full font-medium hover:opacity-90 transition">
+        <div className="inline-block border border-black px-8 py-3 hover:bg-black hover:text-white transition">
           Join the Movement
         </div>
       </section>
