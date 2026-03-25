@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app=FastAPI(title="Satyamev")
 origins = [
     "http://localhost:3000",
-    "https://your-frontend.vercel.app"
+    "https://satyamev-jade.vercel.app"
 ]
 app.add_middleware(
     CORSMiddleware,
