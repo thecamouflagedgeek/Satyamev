@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/issues`);
+        const res = await fetch("https://satyamev.onrender.com/issues");
         const data = await res.json();
         setIssues(data);
       } catch (err) {
