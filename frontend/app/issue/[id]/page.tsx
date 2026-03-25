@@ -5,8 +5,12 @@ import { notFound } from "next/navigation";
 
 const BASE_URL = "https://satyamev.onrender.com";
 
-export default async function IssuePage({ params }: any) {
-  const { id } = params;
+export default async function IssuePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const id = params?.id;
 
   try {
     // ✅ Fetch single issue directly
