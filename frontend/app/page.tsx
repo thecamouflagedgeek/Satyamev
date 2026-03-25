@@ -87,7 +87,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-10">
             {/* ================= CARD 1 ================= */}
-            <Link href="/issue/ai-regulation">
+            <Link href="/issue/5">
               <div className="border border-black hover:shadow-2xl transition duration-300 cursor-pointer flex flex-col h-full">
                 <div className="relative h-40 w-full">
                   <Image
@@ -124,7 +124,7 @@ export default function Home() {
             </Link>
 
             {/* ================= CARD 2 ================= */}
-            <Link href="/issue/data-localization">
+            <Link href="/issue/6">
               <div className="border border-black hover:shadow-2xl transition duration-300 cursor-pointer flex flex-col h-full">
                 <div className="relative h-40 w-full">
                   <Image
@@ -161,7 +161,7 @@ export default function Home() {
             </Link>
 
             {/* ================= CARD 3 ================= */}
-            <Link href="/issue/rural-health">
+            <Link href="/issue/7">
               <div className="border border-black hover:shadow-2xl transition duration-300 cursor-pointer flex flex-col h-full">
                 <div className="relative h-40 w-full">
                   <Image

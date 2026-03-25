@@ -73,89 +73,108 @@ export default async function IssuePage({ params }: any) {
   }
 
   return (
-    <main className="bg-black text-white min-h-screen">
-      {/* ISSUE HEADER */}
-      <section className="px-6 md:px-16 py-16 border-b border-white/10">
-        <div className="max-w-3xl">
-          <span className="text-xs bg-white/10 px-3 py-1 rounded">
+    <main className="bg-black text-white">
+      {/* ================= HERO ================= */}
+      <section className="relative h-[70vh] flex items-center justify-center text-center px-6 md:px-16">
+        <div className="absolute inset-0 bg-[url('/black.jpg')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-black/85" />
+
+        <div className="relative z-10 max-w-3xl mt-16 animate-fadeInUp">
+          <span className="text-xs tracking-widest uppercase text-[#c2410c]">
             Active Issue
           </span>
 
-          <h1 className="text-3xl md:text-5xl font-semibold mt-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-semibold mt-6">
             {issue.title}
           </h1>
 
-          <p className="text-gray-400 mt-4 text-lg leading-relaxed">
+          <div className="w-16 h-[3px] bg-[#c2410c] mx-auto my-6" />
+
+          <p className="text-gray-300 leading-relaxed text-lg">
             {issue.summary}
           </p>
         </div>
       </section>
 
-      {/* STRUCTURED UNDERSTANDING */}
-      <section className="px-6 md:px-16 py-14">
-        <h2 className="text-2xl font-semibold tracking-tight mb-8">
-          Structured Understanding
-        </h2>
+      {/* ================= STRUCTURED UNDERSTANDING ================= */}
+      <section className="bg-white text-black px-6 md:px-16 py-24">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-semibold border-b border-black pb-4">
+            Structured Understanding
+          </h2>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          <Confirmed data={issue.confirmed} />
-          <Debated data={issue.debated} />
-          <Missing data={issue.missing} />
+          <div className="grid md:grid-cols-3 gap-8 mt-12">
+            <div className="hover:-translate-y-2 transition duration-300 shadow-lg rounded-xl bg-white p-6">
+              <Confirmed data={issue.confirmed} />
+            </div>
+
+            <div className="hover:-translate-y-2 transition duration-300 shadow-lg rounded-xl bg-white p-6">
+              <Debated data={issue.debated} />
+            </div>
+
+            <div className="hover:-translate-y-2 transition duration-300 shadow-lg rounded-xl bg-white p-6">
+              <Missing data={issue.missing} />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* TIMELINE */}
-      <section className="px-6 md:px-16 py-14 border-t border-white/10">
-        <h2 className="text-2xl font-semibold tracking-tight mb-10">
-          Timeline of Events
-        </h2>
+      {/* ================= TIMELINE ================= */}
+      <section className="relative py-28 px-6 md:px-16">
+        <div className="absolute inset-0 bg-[url('/type.jpg')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-black/90" />
 
-        {!issue.timeline || issue.timeline.length === 0 ? (
-          <p className="text-zinc-500 text-sm">No timeline available.</p>
-        ) : (
-          <div className="relative border-l border-zinc-800 ml-4">
-            {issue.timeline.map((event: any, index: number) => (
-              <div key={index} className="mb-12 ml-6 relative">
-                {/* Dot */}
-                <span className="absolute -left-[11px] top-1 w-5 h-5 bg-white rounded-full border-4 border-black" />
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-16">
+            Timeline of Events
+          </h2>
 
-                {/* Content Card */}
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-white/20 transition-all duration-300">
-                  {/* Date */}
-                  <p className="text-xs text-zinc-400 mb-2">{event.date}</p>
+          {!issue.timeline || issue.timeline.length === 0 ? (
+            <p className="text-zinc-400 text-center">No timeline available.</p>
+          ) : (
+            <div className="relative border-l border-zinc-700 ml-4">
+              {issue.timeline.map((event: any, index: number) => (
+                <div key={index} className="mb-14 ml-8 relative group">
+                  {/* Animated Dot */}
+                  <span className="absolute -left-[13px] top-2 w-6 h-6 bg-[#c2410c] rounded-full border-4 border-black group-hover:scale-125 transition duration-300" />
 
-                  {/* Title */}
-                  <h3 className="text-lg font-semibold text-white">
-                    {event.title}
-                  </h3>
+                  {/* Event Card */}
+                  <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 rounded-xl p-6 shadow-xl hover:border-[#c2410c] transition-all duration-300 hover:-translate-y-1">
+                    <p className="text-xs text-zinc-400 mb-2 tracking-widest uppercase">
+                      {event.date}
+                    </p>
 
-                  {/* Description */}
-                  <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
-                    {event.description}
-                  </p>
+                    <h3 className="text-lg font-semibold text-white">
+                      {event.title}
+                    </h3>
+
+                    <p className="text-sm text-zinc-400 mt-3 leading-relaxed">
+                      {event.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* TRUST + PERSPECTIVES */}
-      <section className="px-6 md:px-16 py-14 border-t border-white/10">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Trust Score */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-            <h3 className="text-white font-semibold mb-4">Trust Score</h3>
+      {/* ================= TRUST + PERSPECTIVES ================= */}
+      <section className="bg-white text-black px-6 md:px-16 py-24">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+          {/* Trust */}
+          <div className="p-8 border border-gray-300 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+            <h3 className="font-semibold text-xl mb-6">Trust Score</h3>
 
-            <p className="text-4xl font-bold text-green-400 mb-4">
+            <p className="text-5xl font-bold text-[#c2410c] mb-4">
               {trustData?.reliability_score ?? 0}%
             </p>
 
-            <p className="text-sm text-zinc-400 mb-4">
+            <p className="text-gray-700 mb-6">
               {trustData?.reasoning ?? "No reasoning provided."}
             </p>
 
-            <ul className="text-xs text-zinc-500 space-y-1">
+            <ul className="text-sm text-gray-600 space-y-2">
               {trustData?.evidence_flags?.map((flag: string, i: number) => (
                 <li key={i}>• {flag}</li>
               ))}
@@ -163,19 +182,19 @@ export default async function IssuePage({ params }: any) {
           </div>
 
           {/* Perspectives */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-            <h3 className="text-white font-semibold mb-4">Perspectives</h3>
+          <div className="p-8 border border-gray-300 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+            <h3 className="font-semibold text-xl mb-6">Perspectives</h3>
 
             {perspectives.length === 0 ? (
-              <p className="text-zinc-500 text-sm">
-                No perspectives available.
-              </p>
+              <p className="text-gray-600">No perspectives available.</p>
             ) : (
-              <ul className="space-y-4 text-sm text-zinc-300">
+              <ul className="space-y-6">
                 {perspectives.map((p: any, i: number) => (
                   <li key={i}>
-                    <div className="font-medium text-white">{p.viewpoint}</div>
-                    <div className="text-zinc-400">{p.summary}</div>
+                    <div className="font-semibold text-[#c2410c]">
+                      {p.viewpoint}
+                    </div>
+                    <div className="text-gray-700 mt-1">{p.summary}</div>
                   </li>
                 ))}
               </ul>

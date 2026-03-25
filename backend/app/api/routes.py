@@ -10,9 +10,9 @@ router=APIRouter()
 
 @router.get("/issues")
 def get_issues():
-    ranked =rank_issues(mock_issues)
-    return {
-        "message":"Issues ranked by Impact-Atention Analyzer",
+    ranked=rank_issues(mock_issues)
+    return{
+        "message":"Issues ranked by Impact-Attention Analyzer",
         "issues":ranked
     }
 
@@ -23,7 +23,9 @@ def truth_analysis(request: IssueRequest):
 
     return {
         "topic": request.topic,
-        "analysis": result
+        "analysis":{
+              "confirmed": result.get("confirmed", []),"debated": result.get("debated", []),"missing": result.get("missing", [])
+        }
     }
 
 @router.post("/trust-score")

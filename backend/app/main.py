@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.api.routes import router 
 from fastapi.middleware.cors import CORSMiddleware
+app=FastAPI(title="Satyamev")
 origins = [
     "http://localhost:3000",
     "https://your-frontend.vercel.app"
@@ -12,7 +13,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app=FastAPI(title="Satyamev")
 
 app.include_router(router)
 @app.get("/")

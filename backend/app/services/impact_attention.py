@@ -7,13 +7,16 @@ def compute_importance(title:str) -> int:
 
     return impact-media_noise
 
-def rank_issues(issues:list) -> list:
-    ranked =[]
-    for issue in issues:
-        score=compute_importance(issue["title"])
-        enriched_issue=issue.copy()
-        enriched_issue["importance_score"] = score
-        ranked.append(enriched_issue)
+def rank_issues(issues):
+    ranked = []
 
-    ranked.sort(key = lambda x:x["importance_score"], reverse=True)
-    return ranked 
+    for issue in issues:
+        rules = ISSUE_RULES.get(issue["title"], {})
+
+        ranked.append({
+            **issue,  # keeps timeline + everything else
+            "impact": rules.get("impact", 50),
+            "media_noise": rules.get("media_noise", 50)
+        })
+
+    return ranked
