@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.mock_data.issues import mock_issues
 from app.services.impact_attention import rank_issues
 from app.services.truth_engine import analyze_truth
@@ -50,3 +50,11 @@ def perspectives(request: IssueRequest):
         "topic": request.topic,
         "perspectives": generate_perspectives(request.topic)
     }
+
+@router.get("/issues/{issue_id}")
+def get_issue(issue_id: int):
+    for issue in mock_issues:
+        if issue["id"] == issue_id:
+            return issue
+    
+    raise HTTPException(status_code=404, detail="Issue not found")
