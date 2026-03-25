@@ -12,7 +12,7 @@ export default function Home() {
       try {
         const res = await fetch("https://satyamev.onrender.com/issues");
         const data = await res.json();
-        setIssues(data);
+        setIssues(Array.isArray(data) ? data : data.issues);
       } catch (err) {
         console.error("Error fetching issues:", err);
       }
