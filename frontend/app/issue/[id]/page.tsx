@@ -13,13 +13,18 @@ export default async function IssuePage({
   const id = params?.id;
 
   try {
-    // ✅ Fetch single issue directly
     const issueRes = await fetch(`${BASE_URL}/issues/${id}`, {
       cache: "no-store",
+      next: { revalidate: 0 },
     });
 
     if (!issueRes.ok) {
-      return notFound();
+      console.error("Backend error:", issueRes.status);
+      return (
+        <div className="text-white p-10 text-center">
+          Backend is waking up... try again in a few seconds ⚡
+        </div>
+      );
     }
 
     const rawIssue = await issueRes.json();
